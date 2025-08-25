@@ -1,289 +1,340 @@
-# 🌌 Quantum Location Recall (qMemory)
+# 🌌 QMemory - Quantum Memory Reconstruction
 
-記憶の断片から、心に刻まれた場所を量子的に観測するアプリケーション
+> 記憶の断片から、心に刻まれた場所を量子的に観測するアプリケーション
 
-## 📸 画面イメージ
+[![Next.js](https://img.shields.io/badge/Next.js-15.4.6-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.1.1-blue?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue?logo=typescript)](https://typescriptlang.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green?logo=fastapi)](https://fastapi.tiangolo.com/)
+
+## 📸 Screenshots
 
 <p align="center">
-  <img src="./docs/main.png" width="100%" alt="メイン画面">
+  <img src="./docs/main.png" width="100%" alt="Main Interface">
 </p>
 
 <p align="center">
-  <img src="./docs/goal.png" width="100%" alt="結果画面">
+  <img src="./docs/goal.png" width="100%" alt="Quantum Results View">
 </p>
 
-## 🎯 プロジェクト概要
+## 🎯 Overview
 
-**名称：** qMemory  
-**目的：** 曖昧な記憶の断片（テキスト・感情など）をもとに、生成AIと量子的アプローチを活用し、ユーザーの心に残っていた可能性のある「場所」を提示する。
+**QMemory** は、曖昧な記憶の断片（テキスト・感情など）をもとに、AI と量子コンピューティングの概念を活用して、ユーザーの心に残っていた可能性のある「場所」を提示するWebアプリケーションです。
 
-### ゴール定義
+### Key Features
 
-- ユーザーの記憶断片から **実在の地名・場所**を1件メイン出力
-- 必要に応じて 2〜4件の「あり得たかもしれない場所」を表示
-- 画像・ストーリー・地図情報を統合し、**意味のある記憶体験**を提供
+- 🧠 **Memory Fragment Input** - テキストベースの記憶断片入力
+- 🎭 **Emotion Selection** - 6種類の感情コンテキスト選択
+- ⚛️ **Quantum Processing Visualization** - 量子重ね合わせ状態の視覚化
+- 🌍 **Location Discovery** - 実在する場所の特定とマッピング
+- 📸 **Memory Screenshots** - 完全な記憶体験のキャプチャ機能
+- 🗺️ **Interactive Maps** - リアルタイム地図統合
 
-## 🔬 コア概念（量子的設計思想）
+## 🔬 Quantum Computing Concepts
 
-| 量子概念 | アプリでの働き |
-| -------- | -------------- |
-| **重ね合わせ** | 入力から導いた複数の場所候補を"揺らぎ"として同時保持 |
-| **干渉** | キーワード・感情が候補同士を強め合い／弱め合い、確率を再配分 |
-| **観測** | ボタン押下で波が収束し、最も確からしい 1 地点を提示 |
-| **残響** | 選ばれなかった候補を「影」として控えめに示し、記憶の余韻を可視化 |
+| Quantum Concept | Application in QMemory |
+| --------------- | ---------------------- |
+| **Superposition** | 複数の場所候補を同時に保持 |
+| **Entanglement** | 記憶-感情間の量子もつれ相関 |
+| **Interference** | キーワード・感情による確率振幅の干渉 |
+| **Observation** | 波動関数の収束による最終的な場所決定 |
+| **Decoherence** | 量子状態から古典的結果への変換 |
 
-## 🚀 技術スタック
+## 🚀 Technology Stack
 
-### フロントエンド
-- **Next.js 14** - React フレームワーク (App Router)
-- **TypeScript** - 型安全性
-- **Tailwind CSS** - モダンなスタイリング
-- **Framer Motion** - アニメーション
-- **React Leaflet** - 地図表示
+### Frontend
+- **Next.js 15.4.6** with App Router
+- **React 19.1.1** - Modern React with concurrent features
+- **TypeScript 5.9.2** - Type safety and developer experience
+- **Tailwind CSS** - Utility-first styling
+- **Framer Motion 10.16.16** - Advanced animations
+- **Lucide React** - Modern icon system
+- **React Leaflet** - Interactive maps
+- **html2canvas** - Screenshot functionality
 
-### バックエンド
-- **FastAPI** - 高性能 Python API
-- **Qiskit** - IBM量子コンピューティング
-- **Cirq** - Google量子コンピューティング
-- **NumPy/SciPy** - 数値計算
+### Backend
+- **FastAPI** - High-performance Python API
+- **Python Quantum Libraries** - Qiskit, Cirq for quantum simulation
+- **NumPy/SciPy** - Scientific computing
 
-### API連携
-- **Google Gemini API** - 生成AI（メイン）
-- **OpenAI GPT-4** / **DALL·E 3** (オプション)
-- **OpenStreetMap** - 地図情報
-- **Mapbox** / **Google Maps** (オプション)
+### AI & APIs
+- **Google Gemini API** - Primary AI language model
+- **OpenStreetMap** - Geographic data and mapping
+- **Geocoding Services** - Location coordinate resolution
 
-## 📁 プロジェクト構造
+## 📁 Project Structure
 
 ```
 qmemory/
-├── src/                    # Next.js フロントエンド
-│   ├── app/
-│   │   ├── globals.css     # グローバルスタイル
-│   │   ├── layout.tsx      # レイアウト
-│   │   ├── page.tsx        # メインページ
-│   │   ├── settings/       # 設定ページ
-│   │   └── api/            # API ルート
-│   ├── components/         # React コンポーネント
-│   ├── types/              # TypeScript 型定義
-│   └── utils/              # ユーティリティ
-├── backend/                # FastAPI バックエンド
-│   ├── main.py            # メインアプリケーション
-│   ├── quantum_engine.py  # 量子計算エンジン
-│   ├── models.py          # データモデル
-│   └── requirements.txt   # Python依存関係
-├── docs/                  # ドキュメント・画像
-├── package.json           # Node.js 依存関係
-├── tailwind.config.ts     # Tailwind設定
-└── tsconfig.json          # TypeScript設定
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── api/               # API routes
+│   │   │   ├── gemini/        # Gemini AI endpoints
+│   │   │   └── quantum/       # Quantum processing endpoints
+│   │   ├── globals.css        # Global styles
+│   │   ├── layout.tsx         # Root layout
+│   │   ├── page.tsx          # Main application page
+│   │   └── settings/         # Settings page
+│   ├── components/           # React components
+│   │   ├── MemorySupersitionView.tsx    # Quantum visualization
+│   │   ├── QuantumProcessingVisualizer.tsx  # Processing animation
+│   │   ├── MapComponent.tsx              # Interactive maps
+│   │   └── ParticleBackground.tsx        # Quantum particle effects
+│   ├── lib/                  # Utility libraries
+│   │   ├── gemini.ts         # Gemini API integration
+│   │   ├── geocoding.ts      # Location services
+│   │   ├── imageService.ts   # Image handling
+│   │   └── crypto.ts         # API key encryption
+│   └── types/                # TypeScript definitions
+├── backend/                  # Python quantum backend
+│   ├── main.py              # FastAPI application
+│   ├── quantum_engine.py    # Quantum processing engine
+│   ├── models.py           # Data models
+│   └── requirements.txt    # Python dependencies
+├── static/                 # Static assets
+└── docs/                  # Documentation and images
 ```
 
-## 🛠️ セットアップ
+## 🛠️ Setup & Installation
 
-### 1. 依存関係のインストール
+### Prerequisites
 
-#### フロントエンド
+- Node.js 18+ and npm
+- Python 3.11+
+- Google Gemini API key
+
+### 1. Clone the Repository
+
 ```bash
-npm install
+git clone https://github.com/wg-quantum/qmemory.git
+cd qmemory
 ```
 
-#### バックエンド
+### 2. Frontend Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env.example .env.local
+```
+
+### 3. Environment Configuration
+
+Create `.env.local`:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+```
+
+### 4. Backend Setup (Optional)
+
 ```bash
 cd backend
 pip install -r requirements.txt
-```
 
-### 2. 環境変数の設定
-
-#### フロントエンド (.env.local)
-```
-BACKEND_URL=http://localhost:8010
-NEXT_PUBLIC_BACKEND_URL=http://localhost:8010
-NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-#### バックエンド (backend/.env)
-```
-ENVIRONMENT=development
-DEBUG=True
-CORS_ORIGINS=["http://localhost:3000", "http://localhost:3001"]
-LOG_LEVEL=info
-```
-
-### 3. 開発サーバーの起動
-
-#### バックエンド
-```bash
-cd backend
+# Start the quantum backend
 python main.py
-# または
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-#### フロントエンド
+### 5. Start Development Server
+
 ```bash
 npm run dev
 ```
 
-アプリケーションは以下でアクセス可能：
-- フロントエンド: http://localhost:3000 (or 3001)
-- バックエンドAPI: http://localhost:8010
-- API ドキュメント: http://localhost:8010/docs
+Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
-## 📱 機能
+## 📱 Usage
 
-### ユーザーフロー
+### Basic Workflow
 
-1. 記憶断片をテキストで入力
-2. 感情を選択（例：「懐かしい」「不安」）
-3. 生成AIが候補を生成
-4. 意味的類似度や感情干渉により1件を「観測」
-5. 結果として提示（画像、ストーリー、地図リンクなど）
+1. **Input Memory Fragment** - Enter descriptive text about a vague memory
+2. **Select Emotion** - Choose the emotional context (nostalgic, melancholic, etc.)
+3. **Quantum Processing** - Watch the quantum superposition visualization
+4. **Observe Results** - See the most probable location with supporting evidence
+5. **Explore Alternatives** - View other possible locations in superposition
+6. **Save & Share** - Capture and share your quantum memory reconstruction
 
-### コア機能一覧
+### Memory Input Examples
 
-| 機能カテゴリ | 概要 |
-|---------------|------|
-| 記憶入力 | テキスト + 感情選択（6種類） |
-| 候補生成 | 生成AIで「場所候補 + 記述」を生成 |
-| 観測処理 | 意味重み付け + サンプリングで1件選出 |
-| 結果表示 | 地名 + ストーリー + 画像 + マップ |
-| 記録保存 | 気に入った記憶をローカルに保存 |
+**Domestic (Japan)**:
+```
+桜の花びら、静かな石段、古いお寺の鐘の音、お香の香り
+```
 
-### 量子状態表示
-- **コヒーレンス**: 量子状態の純粋度
-- **もつれ度**: 記憶-感情相関
-- **重ね合わせ**: 量子位相分散
+**International**:
+```
+石畳の道、教会の鐘、パン屋の香り、古い建物、ヨーロッパ
+```
 
-## 🔬 量子アルゴリズム詳細
+## 🎨 Features Deep Dive
 
-### 記憶量子化プロセス
-1. テキスト→ベクトル変換
-2. 量子振幅エンコーディング
-3. 位相情報の付与
-4. 正規化・純粋化
+### Quantum Visualization System
 
-### 感情-記憶もつれ
-1. テンソル積によるもつれ状態生成
-2. ベル状態要素の導入
-3. エンタングルメント測度計算
+- **Real-time Processing Animation** - 6-stage quantum processing pipeline
+- **Superposition States** - Multiple location probabilities displayed simultaneously
+- **Wave Function Collapse** - Animated transition to final observation
+- **Quantum Metrics** - Coherence, entanglement, and superposition measurements
 
-### 干渉・観測アルゴリズム（疑似量子処理）
-1. 生成AIで候補を生成（地名 + 情景テキスト）
-2. 各候補と記憶断片の意味距離・感情類似度を評価
-3. 干渉スコア（確率振幅）を割り当ててランク付け
-4. 確率分布から1件を観測（選出）
+### Interactive Components
 
-## 🎨 デザインシステム
+- **Memory Fragment Grid** - Visual representation of quantum bits
+- **Probability Clouds** - Dynamic probability distribution visualization
+- **Location Cards** - Rich media cards with images and descriptions
+- **Interactive Maps** - Embedded OpenStreetMap integration
 
-### カラーパレット
-- **Quantum Blue**: 量子テーマカラー
-- **Cosmic Purple**: 宇宙的要素
-- **Emerald Green**: 自然・成長
-- **Dark Gradients**: 深宇宙背景
-- **VSCode Theme**: ダークモード対応
+### Screenshot & Sharing
 
-### アニメーション
-- **パーティクルシステム**: 量子粒子の動き
-- **Framer Motion**: スムーズなトランジション
-- **ガラスモーフィズム**: 現代的なUI
+- **Full-Screen Capture** - Advanced html2canvas implementation
+- **Native Share API** - Cross-platform sharing with fallbacks
+- **Clipboard Integration** - Direct image copying functionality
+- **Download Options** - High-quality PNG export
 
-## 🧪 開発・テスト
+## 🔧 API Endpoints
 
-### コードの品質チェック
+### Quantum Processing
+```
+POST /api/quantum/memory-analysis
+```
+
+### Gemini Integration
+```
+POST /api/gemini/analyze-memory
+GET  /api/gemini/test
+```
+
+### Configuration
+```
+GET  /api/config
+```
+
+## 🧪 Development
+
+### Available Scripts
+
 ```bash
-# TypeScript型チェック
+# Development server
+npm run dev
+
+# Type checking
 npm run type-check
 
-# ESLint
+# Linting
 npm run lint
 
-# Next.js ビルド
+# Production build
+npm run build
+
+# Production server
+npm run start
+```
+
+### Code Quality
+
+The project uses:
+- **TypeScript** for type safety
+- **ESLint** for code linting
+- **Next.js built-in optimizations**
+- **Tailwind CSS** for consistent styling
+
+## 📊 Performance Features
+
+- **Next.js App Router** - Optimized routing and rendering
+- **React 19 Concurrent Features** - Improved user experience
+- **Image Optimization** - Automatic image optimization and lazy loading
+- **Dynamic Imports** - Code splitting for better performance
+- **Caching Strategies** - Optimized API response caching
+
+## 🚀 Deployment
+
+### Frontend (Vercel - Recommended)
+
+```bash
+# Build and deploy
 npm run build
 ```
 
-### バックエンドテスト
-```bash
-cd backend
-# APIのヘルスチェック
-curl http://localhost:8010/health
+Deploy to Vercel with environment variables:
+- `GEMINI_API_KEY`
+- `NEXT_PUBLIC_BACKEND_URL`
 
-# 量子システム状態確認
-curl http://localhost:8010/api/quantum/state
-```
+### Backend (Docker)
 
-## 📊 API エンドポイント
-
-### 量子分析
-- `POST /api/quantum/analyze` - 記憶の量子分析
-- `GET /api/quantum/state` - 量子システム状態
-
-### Gemini API
-- `POST /api/gemini/analyze` - Gemini による記憶分析
-- `POST /api/gemini/test` - API接続テスト
-
-### ユーティリティ
-- `GET /health` - ヘルスチェック
-- `POST /api/memory/save` - 記憶の保存
-- `GET /api/locations/coordinates/{name}` - 座標取得
-
-## 📈 精度・体験評価軸
-
-| 評価項目 | 測定方法 |
-|-----------|------------|
-| 主観納得度 | ユーザーのYes/No評価や5段階評価 |
-| 再現性 | 同じ入力での複数回実行結果の一貫性 |
-| 使い続けたくなる度 | 保存率・再訪率などの行動指標 |
-| 意味類似度 | 入力と出力語の意味ベクトル距離 |
-
-## 🚀 本番デプロイ
-
-### フロントエンド (Vercel推奨)
-```bash
-npm run build
-npm start
-```
-
-### バックエンド (Docker)
 ```dockerfile
 FROM python:3.11-slim
 WORKDIR /app
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install -r requirements.txt
-COPY . .
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8010"]
+COPY backend/ .
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-## 🌟 今後の拡張
+## 🌟 Future Roadmap
 
-### 近期目標
-- **リアル量子ハードウェア連携**: IBM Quantum Network
-- **AI統合**: LLMとの量子-古典ハイブリッド
-- **記憶データベース**: 個人記憶の永続化
+### Phase 1 - Enhanced AI Integration
+- Multi-model AI ensemble (GPT-4, Claude, Gemini)
+- Advanced image generation with DALL-E 3
+- Voice input for memory fragments
 
-### 将来拡張アイデア
-- **VR/AR統合**: 没入型記憶体験
-- **量子機械学習**: より高精度な予測
-- **SNS投稿**や現地情報との連携
-- **音・匂い**などの入力対応（記憶の強化）
-- **夢や感情履歴**との連携
+### Phase 2 - True Quantum Computing
+- IBM Quantum Network integration
+- Real quantum hardware utilization
+- Quantum machine learning algorithms
 
-## 📄 ライセンス
+### Phase 3 - Extended Reality
+- VR/AR memory exploration
+- 3D location reconstruction
+- Immersive quantum visualization
 
-MIT License
+### Phase 4 - Social & Personal
+- Memory sharing and collaboration
+- Personal memory databases
+- AI-powered memory assistance
 
-## 🤝 コントリビューション
+## 🤝 Contributing
 
-プルリクエストを歓迎します。大きな変更については、まずIssueで議論してください。
+We welcome contributions! Please follow these steps:
 
-## 📞 サポート
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-- GitHub Issues
-- 量子コンピューティング相談
-- UI/UX フィードバック
+### Development Guidelines
 
-## まとめ
+- Follow TypeScript best practices
+- Use semantic commit messages
+- Add tests for new features
+- Update documentation as needed
 
-- **観測出力：** 記憶から導き出された"1つの場所"
-- **量子要素：** 重ね合わせ → 干渉 → 観測モデルで表現
-- **技術実現性：** Next.js + Gemini API + DALL·E で完結可能
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **IBM Quantum Network** - Quantum computing inspiration
+- **Google AI** - Gemini API integration
+- **OpenStreetMap** - Geographic data
+- **Next.js Team** - Amazing React framework
+- **Vercel** - Deployment platform
+
+## 📞 Support
+
+- **GitHub Issues** - Bug reports and feature requests
+- **Discussions** - General questions and community chat
+- **Wiki** - Detailed documentation and tutorials
+
+---
+
+<p align="center">
+  <strong>Exploring the quantum nature of human memory through technology</strong>
+</p>
+
+<p align="center">
+  Made with ⚛️ and 🧠 by the QMemory Team
+</p>
