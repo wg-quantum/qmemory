@@ -1,0 +1,14 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pydantic==2.5.0
+numpy==1.25.2
+scipy==1.11.4
+qiskit==0.45.0
+qiskit-aer==0.13.0
+qiskit-algorithms==0.2.2
+cirq==1.2.0
+requests==2.31.0
+python-dotenv==1.0.0
+cors==1.0.1
+fastapi-cors==0.0.6

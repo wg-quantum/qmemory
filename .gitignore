@@ -1,0 +1,162 @@
+# Dependencies
+# Node.js dependencies directory
+node_modules/
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment directories
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python package management
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing and coverage
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Production build files
+*.next/
+.vercel
+
+# Environment variables
+# Local environment files (never commit these)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editor files
+# Visual Studio Code
+.vscode/
+# JetBrains IDEs (IntelliJ, WebStorm, PyCharm, etc.)
+.idea/
+# Vim swap files
+*.swp
+*.swo
+*~
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Operating System files
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+# Windows
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Quantum computing specific
+# Quantum assembly files
+*.qasm
+# Quantum circuit cache
+quantum_circuits/
+qiskit_cache/
+
+# Logging
+# Log files and directories
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Database files
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+
+# Temporary files and directories
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Build and bundle analysis
+# Next.js bundle analysis files
+.next/analyze/
+.next/cache/
+
+# TypeScript
+# TypeScript cache
+*.tsbuildinfo
+
+# Package manager lock files (optional - uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Debug
+# Chrome debugger config
+.chrome/
+
+# Miscellaneous
+# Backup files
+*.bak
+*.backup
+# Lock files
+*.lock
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+
+# Static files cache
+.cache/
+public/
+
+# Generated files
+generated/
+
+# Backend specific (if using Python backend)
+# Flask/Django
+instance/
+migrations/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
