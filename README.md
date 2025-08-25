@@ -1,18 +1,22 @@
-# 🌌 QMemory - 量子記憶再構成システム
+# QMemory - 量子記憶再構成システム
 
 > 記憶の断片から、心に刻まれた場所を量子的に観測するアプリケーション
 
-[![Next.js](https.img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Python-green?logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Google Gemini](https://img.shields.io/badge/Google_Gemini-AI-blue?logo=google&logoColor=white)](https://ai.google.dev/)
+<div align="center">
 
-## 🎯 概要
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-AI-4A89F3?style=for-the-badge&logo=google-gemini&logoColor=white)](https://ai.google.dev/)
+
+</div>
+
+## 概要
 
 **QMemory**は、曖昧な記憶の断片（テキスト・感情）をもとに、AIと量子コンピューティングの概念を組み合わせて、ユーザーの心に残る「場所」を再構成するWebアプリケーションです。ユーザーが入力した情報から、AIが場所の候補を生成し、量子シミュレーションによって最も可能性の高い場所を「観測」します。
 
-### ✨ 主な機能
+### 主な機能
 
 -   **記憶入力:** テキストで曖昧な記憶を入力します。
 -   **感情選択:** 記憶に紐づく感情を選択し、分析の精度を高めます。
@@ -20,46 +24,46 @@
 -   **場所の特定:** 最も可能性の高い場所を地図や関連情報と共に提示します。
 -   **結果の共有:** 生成された記憶のイメージを画像として保存・共有できます。
 
-## 🏛️ アーキテクチャ
+## アーキテクチャ
 
 このシステムは、Next.jsによるフロントエンド、FastAPIによるバックエンド、そして外部のAI/地理情報APIから構成されています。
 
 ```mermaid
 graph TD
-    subgraph "ユーザー"
-        A[ブラウザ]
+    subgraph "User"
+        A[Browser]
     end
 
-    subgraph "フロントエンド (Next.js on Vercel)"
-        B[Web UI (React/TypeScript)]
+    subgraph "Frontend - Next.js on Vercel"
+        B[Web UI - React/TypeScript]
         C[Next.js API Routes]
     end
 
-    subgraph "バックエンド (Python on Docker)"
+    subgraph "Backend - Python on Docker"
         D[FastAPI Server]
-        E[Quantum Engine (Simulator)]
+        E[Quantum Engine - Simulator]
     end
 
-    subgraph "外部サービス"
+    subgraph "External Services"
         F[Google Gemini API]
         G[OpenStreetMap / Geocoding API]
     end
 
-    A -- 記憶と感情を入力 --> B
-    B -- APIリクエスト --> C
-    C -- 場所の分析依頼 --> F
-    F -- 候補を返却 --> C
-    C -- 量子分析リクエスト --> D
-    D -- 量子シミュレーション実行 --> E
-    E -- 分析結果を返却 --> D
-    D -- 最終結果を返却 --> C
-    C -- 候補地の地理情報問合せ --> G
-    G -- 座標・画像を返却 --> C
-    C -- 最終結果をUIに送信 --> B
-    B -- 結果を表示 --> A
+    A -- "Memory & Emotion" --> B
+    B -- "API Request" --> C
+    C -- "Analyze Location" --> F
+    F -- "Candidate Locations" --> C
+    C -- "Quantum Analysis Request" --> D
+    D -- "Run Simulation" --> E
+    E -- "Analysis Result" --> D
+    D -- "Final Result" --> C
+    C -- "Fetch Geodata" --> G
+    G -- "Coordinates & Images" --> C
+    C -- "Send Final Result" --> B
+    B -- "Display Result" --> A
 ```
 
-## 🔄 処理フロー
+## 処理フロー
 
 1.  **入力:** ユーザーがブラウザで記憶の断片と感情を入力します。
 2.  **AI分析:** Next.jsのAPIルートがGoogle Gemini APIを呼び出し、入力内容から関連性の高い場所の候補リスト（地名、説明など）を生成します。
@@ -73,7 +77,7 @@ graph TD
     -   全ての結果を統合し、フロントエンドに返却します。
 6.  **表示:** フロントエンドが結果を受け取り、地図、ストーリー、重ね合わせ状態の他の候補などを視覚的に表示します。
 
-## 🛠️ 技術スタック
+## 技術スタック
 
 | 分類         | 技術                               |
 | :----------- | :--------------------------------- |
@@ -83,7 +87,7 @@ graph TD
 | **地図・地理情報** | React Leaflet, OpenStreetMap       |
 | **インフラ**     | Vercel (Frontend), Docker (Backend)|
 
-## 🚀 セットアップと実行
+## セットアップと実行
 
 ### 前提条件
 
@@ -129,7 +133,7 @@ npm run dev
 
 アプリケーションが [http://localhost:3000](http://localhost:3000) で起動します。
 
-## 📁 ディレクトリ構成
+## ディレクトリ構成
 
 ```
 qmemory/
@@ -150,10 +154,10 @@ qmemory/
 └── package.json          # Node.js依存パッケージ
 ```
 
-## 🤝 コントリビューション
+## コントリビューション
 
 IssueやPull Requestを歓迎します。開発に参加する際は、まずリポジトリをフォークし、フィーチャーブランチを作成してください。
 
-## 📄 ライセンス
+## ライセンス
 
 このプロジェクトはMITライセンスです。
