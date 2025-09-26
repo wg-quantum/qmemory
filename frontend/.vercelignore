@@ -43,4 +43,4 @@ test-results/
 # Lock files (let Vercel handle)
 package-lock.json
 yarn.lock
-pnpm-lock.yaml
+pnpm-lock.yaml# Force Vercel redeploy - Fri Sep 26 13:07:32 JST 2025
