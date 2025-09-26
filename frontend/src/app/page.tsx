@@ -116,7 +116,7 @@ export default function QuantumLocationRecall() {
                         const parent = target.parentElement
                         if (parent) {
                           parent.innerHTML = `
-                            <div class="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                            <div class="text-6xl font-bold" style="color: #5ce1e6;">
                               QMemory
                             </div>
                           `
