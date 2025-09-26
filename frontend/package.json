@@ -37,7 +37,7 @@
   "devDependencies": {},
   "packageManager": "npm@10.0.0",
   "engines": {
-    "node": ">=18.17.0",
+    "node": "20.x",
     "npm": ">=9.0.0"
   }
 }
