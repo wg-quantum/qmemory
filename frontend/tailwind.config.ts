@@ -60,14 +60,9 @@ const config: Config = {
       },
     },
   },
-  plugins: (() => {
-    try {
-      return [require('@tailwindcss/typography')];
-    } catch (error) {
-      console.warn('Failed to load @tailwindcss/typography plugin:', error);
-      return [];
-    }
-  })(),
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 
 export default config
