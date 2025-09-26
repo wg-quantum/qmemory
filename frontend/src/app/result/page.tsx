@@ -80,14 +80,20 @@ export default function ResultPage() {
       canvas.toBlob(async (blob) => {
         if (!blob) return
 
-        if (navigator.share && navigator.canShare) {
+        if (navigator.share && typeof navigator.canShare === 'function') {
           try {
             const file = new File([blob], `quantum-memory-${Date.now()}.png`, { type: 'image/png' })
-            await navigator.share({
+            const shareData = {
               title: 'Quantum Memory Reconstruction',
               text: '量子重ね合わせによる記憶再構成',
               files: [file]
-            })
+            }
+            
+            if (navigator.canShare(shareData)) {
+              await navigator.share(shareData)
+            } else {
+              throw new Error('File sharing not supported')
+            }
             return
           } catch (shareError) {
             console.log('Native share failed, falling back to download')
