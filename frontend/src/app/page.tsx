@@ -97,22 +97,39 @@ export default function QuantumLocationRecall() {
             >
               <header className="text-center mb-8">
                 <div className="flex flex-col items-center mb-2">
-                  <Image 
-                    src="/images/logo.png" 
-                    alt="QMemory Logo" 
-                    width={512}
-                    height={512}
-                    className="w-auto h-auto max-w-full max-h-96 object-contain"
-                    priority
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      console.warn('Logo failed to load, switching to symbol')
-                      target.src = '/images/symbol.png' // Fallback to symbol if logo fails
-                    }}
-                    onLoad={() => console.log('Logo loaded successfully')}
-                  />
+                  <div className="w-96 h-96 max-w-full max-h-96 flex items-center justify-center bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg">
+                    <Image 
+                      src="/images/logo.png" 
+                      alt="QMemory Logo" 
+                      width={512}
+                      height={512}
+                      className="w-auto h-auto max-w-full max-h-full object-contain"
+                      priority
+                      unoptimized={true}
+                      onError={(e) => {
+                        console.warn('Logo failed to load, trying alternative methods')
+                        const target = e.target as HTMLImageElement
+                        // Try alternative fallbacks
+                        if (target.src.includes('logo.png')) {
+                          target.src = '/images/symbol.png'
+                        } else {
+                          // If both images fail, show text logo
+                          const parent = target.parentElement
+                          if (parent) {
+                            parent.innerHTML = `
+                              <div class="text-center">
+                                <div class="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
+                                  QMemory
+                                </div>
+                                <div class="text-sm text-cyan-300">量子×生成AI</div>
+                              </div>
+                            `
+                          }
+                        }
+                      }}
+                      onLoad={() => console.log('Logo loaded successfully')}
+                    />
+                  </div>
                 </div>
                 <p className="text-xl font-light tracking-wide mt-2" style={{ color: '#5ce1e6' }}>
                   量子×生成AI で曖昧な記憶から場所を推測します

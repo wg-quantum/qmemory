@@ -9,6 +9,9 @@
       "maxDuration": 30
     }
   },
+  "github": {
+    "silent": true
+  },
   "env": {
     "NEXT_PUBLIC_APP_NAME": "QMemory - 量子記憶再構成",
     "NEXT_PUBLIC_APP_VERSION": "2.0.0",
@@ -60,6 +63,28 @@
         {
           "key": "Content-Type",
           "value": "image/*"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/images/logo.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
+    },
+    {
+      "source": "/images/symbol.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
         }
       ]
     }

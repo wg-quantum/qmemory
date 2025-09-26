@@ -44,10 +44,12 @@ const nextConfig = {
   reactStrictMode: false, // Disable for better dev performance
   images: {
     remotePatterns: [],
-    unoptimized: process.env.NODE_ENV === 'production', // Disable optimization in production if needed
+    unoptimized: true, // Disable optimization to ensure images are copied
     formats: ['image/webp', 'image/avif'],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    loader: 'default',
+    domains: [],
   },
   // Development optimizations
   compiler: {
