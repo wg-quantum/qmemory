@@ -39,7 +39,7 @@ class MemoryVector(BaseModel):
     """記憶ベクトルの量子表現"""
     model_config = ConfigDict(arbitrary_types_allowed=True)
     
-    components: List[Any]  # complex number を Any で代替
+    components: List[Any]  # Complex numbers as Any type
     dimension: int
     entanglement_measure: float
 
@@ -47,6 +47,6 @@ class EmotionQuantumState(BaseModel):
     """感情の量子状態表現"""
     model_config = ConfigDict(arbitrary_types_allowed=True)
     
-    amplitudes: List[Any]  # complex number を Any で代替
+    amplitudes: List[Any]  # Complex numbers as Any type
     phases: List[float]
     coherence_measure: float

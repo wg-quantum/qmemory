@@ -1,0 +1,30 @@
+{
+  "functions": {
+    "backend/main.py": {
+      "runtime": "python3.9"
+    },
+    "api/**/*.py": {
+      "runtime": "python3.9"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "USE_REAL_QUANTUM": "@use_real_quantum",
+    "IBM_QUANTUM_TOKEN": "@ibm_quantum_token"
+  },
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9",
+      "PYTHONPATH": "backend:api"
+    }
+  }
+}

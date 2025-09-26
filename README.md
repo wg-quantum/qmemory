@@ -1,163 +1,119 @@
-# QMemory - 量子記憶再構成システム
+# QMemory 量子記憶再構成システム
 
-> 記憶の断片から、心に刻まれた場所を量子的に観測するアプリケーション
+QMemory は、曖昧な記憶の断片から関連する場所を推定し、量子シミュレーションの概念を用いて最適な候補を提示する学習・検証用プラットフォームです。Next.js を利用したフロントエンドと、FastAPI による Python バックエンドで構成され、IBM Quantum や Google Gemini など外部サービスと連携することを想定しています。
 
-<div align="center">
+## システム概要
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Google Gemini](https://img.shields.io/badge/Google_Gemini-AI-4A89F3?style=for-the-badge&logo=google-gemini&logoColor=white)](https://ai.google.dev/)
+- 記憶テキストと感情タグを入力すると、AI が候補となる場所を生成します。
+- 生成された候補は量子的な重ね合わせとして扱われ、シミュレーションによって最終候補を観測します。
+- 地図表示や結果の説明を通じて、記憶の可視化を支援します。
 
-</div>
+## 主な機能
 
-## 概要
-
-**QMemory**は、曖昧な記憶の断片（テキスト・感情）をもとに、AIと量子コンピューティングの概念を組み合わせて、ユーザーの心に残る「場所」を再構成するWebアプリケーションです。ユーザーが入力した情報から、AIが場所の候補を生成し、量子シミュレーションによって最も可能性の高い場所を「観測」します。
-
-### 主な機能
-
--   **記憶入力:** テキストで曖昧な記憶を入力します。
--   **感情選択:** 記憶に紐づく感情を選択し、分析の精度を高めます。
--   **量子処理の視覚化:** 場所の候補が重ね合わせ状態から一つに収束する様子をアニメーションで表現します。
--   **場所の特定:** 最も可能性の高い場所を地図や関連情報と共に提示します。
--   **結果の共有:** 生成された記憶のイメージを画像として保存・共有できます。
-
-## アーキテクチャ
-
-このシステムは、Next.jsによるフロントエンド、FastAPIによるバックエンド、そして外部のAI/地理情報APIから構成されています。
-
-```mermaid
-graph TD
-    subgraph "User"
-        A[Browser]
-    end
-
-    subgraph "Frontend - Next.js on Vercel"
-        B[Web UI - React/TypeScript]
-        C[Next.js API Routes]
-    end
-
-    subgraph "Backend - Python on Docker"
-        D[FastAPI Server]
-        E[Quantum Engine - Simulator]
-    end
-
-    subgraph "External Services"
-        F[Google Gemini API]
-        G[OpenStreetMap / Geocoding API]
-    end
-
-    A -- "Memory & Emotion" --> B
-    B -- "API Request" --> C
-    C -- "Analyze Location" --> F
-    F -- "Candidate Locations" --> C
-    C -- "Quantum Analysis Request" --> D
-    D -- "Run Simulation" --> E
-    E -- "Analysis Result" --> D
-    D -- "Final Result" --> C
-    C -- "Fetch Geodata" --> G
-    G -- "Coordinates & Images" --> C
-    C -- "Send Final Result" --> B
-    B -- "Display Result" --> A
-```
-
-## 処理フロー
-
-1.  **入力:** ユーザーがブラウザで記憶の断片と感情を入力します。
-2.  **AI分析:** Next.jsのAPIルートがGoogle Gemini APIを呼び出し、入力内容から関連性の高い場所の候補リスト（地名、説明など）を生成します。
-3.  **量子シミュレーション:**
-    -   生成された場所の候補リストを、FastAPIバックエンドに送信します。
-    -   バックエンドの量子エンジンが、各候補を量子ビットの重ね合わせ状態として表現し、シミュレーションを実行します。
-    -   入力された感情やキーワードがバイアスとなり、特定の場所の確率振幅を強めます。
-4.  **観測:** シミュレーションの結果、最も確率の高い場所が「観測」され、主要な結果として決定されます。確率が低いいくつかの候補も副次的な結果として保持されます。
-5.  **結果生成:**
-    -   Next.jsのAPIルートが、決定した場所の地理情報（座標）や関連画像を外部APIから取得します。
-    -   全ての結果を統合し、フロントエンドに返却します。
-6.  **表示:** フロントエンドが結果を受け取り、地図、ストーリー、重ね合わせ状態の他の候補などを視覚的に表示します。
-
-## 技術スタック
-
-| 分類         | 技術                               |
-| :----------- | :--------------------------------- |
-| **フロントエンド** | Next.js, React, TypeScript, Tailwind CSS, Framer Motion |
-| **バックエンド**   | FastAPI (Python), Uvicorn          |
-| **AI**           | Google Gemini API                  |
-| **地図・地理情報** | React Leaflet, OpenStreetMap       |
-| **インフラ**     | Vercel (Frontend), Docker (Backend)|
-
-## セットアップと実行
-
-### 前提条件
-
--   Node.js (v18以上)
--   Python (v3.9以上)
--   Docker
--   Google Gemini APIキー
-
-### 1. リポジトリのクローン
-
-```bash
-git clone https://github.com/your-username/qmemory.git
-cd qmemory
-```
-
-### 2. 環境変数の設定
-
-ルートディレクトリに`.env.local`ファイルを作成し、以下の内容を記述します。
-
-```env
-# Google Gemini APIキー
-GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
-
-# バックエンドサーバーのURL
-NEXT_PUBLIC_BACKEND_URL="http://localhost:8000"
-```
-
-### 3. バックエンドの起動 (Docker)
-
-```bash
-docker-compose up --build
-```
-(注: `docker-compose.yml`が存在しない場合は、Dockerfileを使用してビルド・実行してください)
-
-### 4. フロントエンドの起動
-
-新しいターミナルを開き、以下を実行します。
-
-```bash
-npm install
-npm run dev
-```
-
-アプリケーションが [http://localhost:3000](http://localhost:3000) で起動します。
+- 記憶入力フォームと感情タグ選択
+- 候補地点の生成と量子シミュレーション
+- 地図・ストーリー・補足情報の提示
+- 生成結果の共有画像エクスポート
 
 ## ディレクトリ構成
 
 ```
 qmemory/
-├── backend/              # Pythonバックエンド (FastAPI)
-│   ├── main.py           # APIエントリーポイント
-│   ├── quantum_engine.py # 量子シミュレーションロジック
-│   └── requirements.txt  # Python依存パッケージ
-├── src/                  # Next.jsフロントエンド
-│   ├── app/              # App Router
-│   │   ├── api/          # APIルート
-│   │   ├── page.tsx      # メインページ
-│   │   └── layout.tsx    # ルートレイアウト
-│   ├── components/       # Reactコンポーネント
-│   └── lib/              # クライアントサイドのライブラリ
-├── static/               # 静的画像ファイル
-├── .env.local            # 環境変数ファイル (ローカル)
-├── next.config.js        # Next.js設定ファイル
-└── package.json          # Node.js依存パッケージ
+├── README.md
+├── Makefile
+├── vercel.json
+├── api/              # 軽量 FastAPI バックエンド
+├── backend/          # 拡張 FastAPI バックエンド
+├── docs/             # 補助資料
+├── frontend/         # Next.js フロントエンド
+│   ├── package.json
+│   ├── next.config.js
+│   ├── tsconfig.json
+│   ├── tailwind.config.ts
+│   ├── postcss.config.js
+│   ├── public/
+│   └── src/
+├── scripts/          # ユーティリティスクリプト
+└── venv/             # Python 仮想環境 (Git 管理外)
 ```
 
-## コントリビューション
+## 必要要件
 
-IssueやPull Requestを歓迎します。開発に参加する際は、まずリポジトリをフォークし、フィーチャーブランチを作成してください。
+- Node.js 18 以上
+- npm
+- Python 3.8 以上
+- GNU Make
+- (任意) IBM Quantum アカウント、Google Gemini API キー
+
+## セットアップ手順
+
+```
+git clone https://github.com/your-organization/qmemory.git
+cd qmemory
+make setup
+```
+
+`make setup` は以下を実行します。
+1. `frontend/` 配下で npm 依存関係をインストール
+2. Python 仮想環境 `venv/` を作成し FastAPI などをインストール
+3. `.env.example` を `.env` に複製 (未作成の場合のみ)
+
+## 開発モード
+
+```
+make dev          # フロントエンドとバックエンドを並行起動
+make frontend     # フロントエンドのみ起動 (http://localhost:3000)
+make backend      # 軽量 FastAPI バックエンド起動 (http://localhost:8002)
+```
+
+## ビルドとテスト
+
+```
+make build        # Next.js 本番ビルド (frontend/.next)
+make start        # 本番モードでフロントエンドを起動
+make test         # 量子テスト + lint + 型チェック
+make lint         # ESLint 実行
+make type-check   # TypeScript 型チェック
+```
+
+量子関連の振る舞いを素早く確認したい場合は `scripts/test_quantum.py` を直接実行することもできます。
+
+## 環境変数
+
+`.env` またはシェル上で以下の変数を設定します。
+
+```
+IBM_QUANTUM_TOKEN=xxxxx      # IBM Quantum API トークン
+USE_REAL_QUANTUM=false       # 実機を利用する場合は true
+GEMINI_API_KEY=xxxxx         # Google Gemini API キー
+```
+
+IBM Quantum を利用する場合は公式サイト (https://quantum-computing.ibm.com/) で API トークンを取得してください。Google Gemini の詳細は https://ai.google.dev/ を参照してください。
+
+## 参考アーキテクチャ
+
+```
+利用者
+  ↓
+Next.js (frontend/src)
+  ↓ API 呼び出し
+FastAPI (api/ または backend/)
+  ↓ 量子シミュレーション
+結果統合
+  ↓
+フロントエンドでの表示
+```
 
 ## ライセンス
 
-このプロジェクトはMITライセンスです。
+本資料の著作権は、⽇本アイ・ビー・エム株式会社（IBM Corporationを含み、以下、IBMといいます。）に帰属します。
+
+ワークショップ、セッション、および資料は、IBMまたはセッション発表者によって準備され、それぞれ独⾃の⾒解を反映したものです。 それらは情報提供の⽬的のみで提供されており、いかなる参加者に対しても法律的またはその他の指導や助⾔を意図したものではなく、またそのような結果を⽣むものでもありません。本資料に含まれている情報については、完全性と正確性を期するよう努⼒しましたが、「現状のまま」提供され、明⽰または暗⽰にかかわらずいかなる保証も伴わないものとします。本資料またはその他の資料の使⽤によって、あるいはその他の関連によって、いかなる損害が⽣じた場合も、IBMまたはセッション発表者は責任を負わないものとします。本資料に含まれている内容は、IBMまたはそのサプライヤーやライセンス交付者からいかなる保証または表明を引きだすことを意図したものでも、IBMソフトウェアの使⽤を規定する適⽤ライセンス契約の条項を変更することを意図したものでもなく、またそのような結果を⽣むものでもありません。
+
+本資料でIBM製品、プログラム、またはサービスに⾔及していても、IBMが営業活動を⾏っているすべての国でそれらが使⽤可能であることを暗⽰するものではありません。本資料で⾔及している製品リリース⽇付や製品機能は、市場機会またはその他の要因に基づいてIBM独⾃の決定権をもっていつでも変更できるものとし、いかなる⽅法においても将来の製品または機能が使⽤可能になると確約することを意図したものではありません。本資料に含まれている内容は、参加者が開始する活動によって特定の販売、売上⾼の向上、またはその他の結果が⽣じると述べる、または暗⽰することを意図したものでも、またそのような結果を⽣むものでもありません。 パフォーマンスは、管理された環境において標準的なIBMベンチマークを使⽤した測定と予測に基づいています。ユーザーが経験する実際のスループットやパフォーマンスは、ユーザーのジョブ・ストリームにおけるマルチプログラミングの量、⼊出⼒構成、ストレージ構成、および処理されるワークロードなどの考慮事項を含む、数多くの要因に応じて変化します。したがって、個々のユーザーがここで述べられているものと同様の結果を得られると確約するものではありません。
+
+記述されているすべてのお客様事例は、それらのお客様がどのようにIBM製品を使⽤したか、またそれらのお客様が達成した結果の実例として⽰されたものです。実際の環境コストおよびパフォーマンス特性は、お客様ごとに異なる場合があります。 IBM、IBM ロゴは、 ⽶国やその他の国におけるInternational Business Machines Corporationの商標または登録商標です。他の製品名およびサービス名等は、それぞれIBMまたは各社の商標である場合があります。現時点での IBM の商標リストについては、 ibm.com/trademarkをご覧ください。
+
+問合せ窓口：IBM 沼田 (kifumi@jp.ibm.com)
+
+© Copyright IBM Corp. 2025

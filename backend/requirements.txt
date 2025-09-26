@@ -7,8 +7,9 @@ scipy==1.11.4
 qiskit==0.45.0
 qiskit-aer==0.13.0
 qiskit-algorithms==0.2.2
-cirq==1.2.0
+qiskit-ibm-runtime==0.15.1
+qiskit-ibm-provider==0.7.2
 requests==2.31.0
 python-dotenv==1.0.0
-cors==1.0.1
 fastapi-cors==0.0.6
+google-generativeai==0.3.2

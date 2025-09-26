@@ -361,3 +361,49 @@ chromatic-build/
 
 # SWC
 .swc/
+# Frontend build artifacts
+frontend/.next/
+frontend/out/
+frontend/dist/
+
+# Backend Python specific
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/.env.local
+backend/logs/
+backend/.pytest_cache/
+backend/test-results/
+
+# Quantum computing cache
+backend/quantum_cache/
+backend/qiskit_cache/
+backend/quantum_results/
+
+# AI/ML models cache
+backend/model_cache/
+backend/.embeddings_cache/
+
+# Geocoding cache
+backend/geocoding_cache/
+
+# Development tools
+.python-version
+.venv/
+venv/
+ENV/
+
+# IDE files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Temporary development files
+*.tmp
+*.temp
+.DS_Store
+
+# Local development overrides
+docker-compose.override.yml
+.local.env
