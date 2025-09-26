@@ -74,7 +74,12 @@ export default function MemorySuperpositionView({
       {/* 量子観測セクション */}
       <div className="flex flex-col items-center space-y-4 mb-8">
         <div className="text-center mb-4">
-          <h3 className="text-lg font-bold text-white mb-2">⚛️ 量子測定による記憶の確定</h3>
+          <h3 className="text-lg font-bold text-white mb-2 flex items-center justify-center gap-2">
+            <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            量子測定による記憶の確定
+          </h3>
           <p className="text-sm text-gray-300">重ね合わせ状態から最も可能性の高い記憶を選択...</p>
         </div>
         
@@ -250,6 +255,48 @@ export default function MemorySuperpositionView({
         ))}
       </div>
 
+      {/* 量子重ね合わせ状態の数式表示 */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-center text-gray-100 mb-4">
+          量子重ね合わせによる並列処理
+        </h3>
+        <div className="text-center bg-gray-800/30 rounded-xl p-6 border border-gray-600/20">
+          <div className="mb-4">
+            <p className="text-lg font-mono text-blue-300 mb-2">
+              |記憶⟩ = α|{mainLocation}⟩
+              {secondaryLocations.slice(0, 4).map((loc, index) => {
+                const coefficients = ['β', 'γ', 'δ', 'ε']
+                return (
+                  <span key={index} className="text-purple-300">
+                    {' + '}{coefficients[index]}|{loc.location}⟩
+                  </span>
+                )
+              })}
+              {secondaryLocations.length > 4 && <span className="text-gray-400"> + ...</span>}
+            </p>
+            <div className="text-sm text-gray-400 mb-4">
+              すべての可能性を同時に処理・記憶候補数{secondaryLocations.length + 1}（重ね合わせ状態）
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+              <div className="bg-blue-500/20 rounded px-3 py-2 border border-blue-400/30">
+                <div className="font-mono text-blue-300">α = {(Math.sqrt(0.75)).toFixed(3)}</div>
+                <div className="text-gray-400">主要候補</div>
+              </div>
+              {secondaryLocations.slice(0, 4).map((loc, index) => {
+                const coefficients = ['β', 'γ', 'δ', 'ε']
+                const amplitude = Math.sqrt(loc.probability / 100)
+                return (
+                  <div key={index} className="bg-purple-500/20 rounded px-3 py-2 border border-purple-400/30">
+                    <div className="font-mono text-purple-300">{coefficients[index]} = {amplitude.toFixed(3)}</div>
+                    <div className="text-gray-400 truncate">{loc.location}</div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 処理段階表示 */}
       <div className="space-y-4 mb-6">
         {[
@@ -280,30 +327,139 @@ export default function MemorySuperpositionView({
         ))}
       </div>
 
-      {/* 量子計算量表示 */}
-      <div className="mt-8 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-cyan-500/10 rounded-2xl p-6 border border-blue-400/20">
-        <div className="text-center mb-4">
-          <h4 className="text-lg font-semibold text-white mb-2">量子処理パフォーマンス</h4>
-          <div className="w-16 h-0.5 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mx-auto rounded-full"></div>
-        </div>
-        
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-black/20 rounded-xl p-4 border border-blue-400/20">
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-blue-300 text-sm font-medium">量子ビット数</div>
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+      {/* 記憶検索の計算量とアルゴリズム */}
+      <div className="mt-8 space-y-6">
+        {/* 計算性能の表示 */}
+        <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-600/20">
+          <h4 className="text-lg font-medium text-gray-100 mb-4 text-center">
+            記憶検索の計算量
+          </h4>
+          <div className="grid grid-cols-3 gap-4 text-center mb-4">
+            <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg p-4 border border-green-400/30">
+              <div className="text-2xl font-bold text-green-400 mb-1">
+                O(√n)
+              </div>
+              <div className="text-sm text-gray-400">
+                量子探索
+              </div>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">6</div>
-            <div className="text-xs text-blue-200/70">Quantum Bits</div>
+            <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg p-4 border border-yellow-400/30">
+              <div className="text-2xl font-bold text-yellow-400 mb-1">
+                0.001s
+              </div>
+              <div className="text-sm text-gray-400">
+                処理時間
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg p-4 border border-blue-400/30">
+              <div className="text-2xl font-bold text-blue-400 mb-1">
+                {secondaryLocations.length + 1}
+              </div>
+              <div className="text-sm text-gray-400">
+                記憶候補数
+              </div>
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm text-gray-300 mb-2">
+              従来の線形検索: O(n) vs 量子探索: O(√n)
+            </div>
+            <div className="bg-gradient-to-r from-red-500/20 via-yellow-500/20 to-green-500/20 h-3 rounded-full relative">
+              <div className="absolute left-0 top-0 bg-green-500 h-3 rounded-full" style={{ width: `${Math.min(100 / Math.sqrt(secondaryLocations.length + 1) * 15, 90)}%` }}></div>
+            </div>
+            <div className="text-xs text-gray-400 mt-1">
+              量子加速による高速化率
+            </div>
+          </div>
+        </div>
+
+        {/* 量子アルゴリズムの動作原理 */}
+        <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-600/20">
+          <h4 className="text-lg font-medium text-gray-100 mb-4 text-center">
+            アルゴリズムの動作原理
+          </h4>
+          
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-lg font-bold text-white flex-shrink-0">
+                ⊗
+              </div>
+              <div>
+                <h5 className="text-sm font-medium text-gray-200 mb-2">並列的な処理</h5>
+                <p className="text-xs text-gray-400 mb-2">
+                  量子ビット（qubit）を基本単位とし、0と1の重ね合わせ状態を利用
+                </p>
+                <div className="bg-purple-500/10 rounded p-2 font-mono text-xs text-purple-300">
+                  |qubit⟩ = α|0⟩ + β|1⟩ → すべての可能性を同時に処理
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-lg font-bold text-white flex-shrink-0">
+                ∿
+              </div>
+              <div>
+                <h5 className="text-sm font-medium text-gray-200 mb-2">量子もつれによる相関発見</h5>
+                <p className="text-xs text-gray-400 mb-2">
+                  記憶断片間の隠れた相関を量子もつれで発見
+                </p>
+                <div className="bg-blue-500/10 rounded p-2 font-mono text-xs text-blue-300">
+                  |記憶A⟩ ⊗ |記憶B⟩ → 相関抽出 → 候補地特定
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-lg font-bold text-white flex-shrink-0">
+                📐
+              </div>
+              <div>
+                <h5 className="text-sm font-medium text-gray-200 mb-2">量子測定による確定</h5>
+                <p className="text-xs text-gray-400 mb-2">
+                  重ね合わせ状態から確率的に最適解を観測
+                </p>
+                <div className="bg-green-500/10 rounded p-2 font-mono text-xs text-green-300">
+                  測定: |ψ⟩ → |確定された記憶⟩ (確率 = |α|²)
+                </div>
+              </div>
+            </div>
           </div>
           
-          <div className="bg-black/20 rounded-xl p-4 border border-purple-400/20">
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-purple-300 text-sm font-medium">重ね合わせ状態</div>
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+          <div className="mt-6 pt-4 border-t border-gray-600/30">
+            <div className="text-center">
+              <div className="text-sm font-medium text-yellow-300 mb-2">量子優位性</div>
+              <div className="text-xs text-gray-400">
+                古典的アルゴリズム: 逐次処理 O(n) → 量子並列処理: O(√n)
+              </div>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">2<sup className="text-lg">6</sup></div>
-            <div className="text-xs text-purple-200/70">Superposition States</div>
+          </div>
+        </div>
+
+        {/* 量子ビット状態表示 */}
+        <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-600/20">
+          <h4 className="text-lg font-medium text-gray-100 mb-4 text-center">
+            量子処理パフォーマンス
+          </h4>
+          
+          <div className="grid grid-cols-2 gap-6">
+            <div className="bg-black/20 rounded-xl p-4 border border-blue-400/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-blue-300 text-sm font-medium">量子ビット数</div>
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">6</div>
+              <div className="text-xs text-blue-200/70">Quantum Bits</div>
+            </div>
+            
+            <div className="bg-black/20 rounded-xl p-4 border border-purple-400/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-purple-300 text-sm font-medium">重ね合わせ状態</div>
+                <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">2<sup className="text-lg">6</sup></div>
+              <div className="text-xs text-purple-200/70">Superposition States</div>
+            </div>
           </div>
         </div>
       </div>
@@ -376,14 +532,24 @@ export default function MemorySuperpositionView({
                     }`}>
                       {hoveredProbability.toFixed(1)}%
                     </div>
-                    <div className="text-xs text-gray-400">📈 一致確率</div>
+                    <div className="text-xs text-gray-400 flex items-center justify-center gap-1">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                      </svg>
+                      一致確率
+                    </div>
                   </div>
                   
                   <div className="text-center p-3 bg-gray-800/30 rounded-xl border border-gray-600/20">
                     <div className="text-lg font-mono font-bold text-purple-300">
                       {hoveredAmplitude.toFixed(3)}
                     </div>
-                    <div className="text-xs text-gray-400">⚡ 計算強度</div>
+                    <div className="text-xs text-gray-400 flex items-center justify-center gap-1">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                      </svg>
+                      計算強度
+                    </div>
                   </div>
                 </div>
                 
@@ -432,8 +598,11 @@ export default function MemorySuperpositionView({
                     />
                   </div>
                   
-                  <div className="text-xs text-gray-500 text-center mt-2">
-                    🌊 量子コンピューターによる並列計算結果
+                  <div className="text-xs text-gray-500 text-center mt-2 flex items-center justify-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732L14.146 12.8l-1.179 4.456a1 1 0 01-1.934 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732L9.854 7.2l1.179-4.456A1 1 0 0112 2z" clipRule="evenodd" />
+                    </svg>
+                    量子コンピューターによる並列計算結果
                   </div>
                 </div>
               </div>

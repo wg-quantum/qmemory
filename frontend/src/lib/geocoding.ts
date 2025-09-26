@@ -13,7 +13,7 @@ interface GeocodingResult {
 export async function geocodeLocation(locationName: string): Promise<GeocodingResult | null> {
   try {
     // Use Nominatim (OpenStreetMap) for free geocoding
-    const query = encodeURIComponent(locationName + ', Japan')
+    const query = encodeURIComponent(locationName)
     const response = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&addressdetails=1`
     )

@@ -183,46 +183,54 @@ export default function ResultPage() {
         </motion.button>
       </div>
 
-      <div className="result-container min-h-screen relative z-10 max-w-5xl mx-auto px-4 md:px-8 py-16">
+      <div className="result-container min-h-screen relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="space-y-8"
         >
-          {/* Main result */}
-          <div className="result-card rounded-3xl p-8 md:p-10 text-center">
-            <div className="observation-badge mb-6">
+          {/* Main result - single card */}
+          <div className="result-card rounded-3xl p-8 md:p-10">
+            <div className="observation-badge mb-6 text-center">
               観測された記憶
             </div>
             
-            <h3 className="text-2xl md:text-3xl font-bold mb-6 text-gray-100 font-['Playfair_Display']">
+            <h3 className="text-2xl md:text-3xl font-bold mb-8 text-gray-100 font-['Playfair_Display'] text-center">
               {result.primaryLocation.name}
             </h3>
             
-            {result.primaryLocation.imageUrl && (
-              <div className="mb-6">
-                <Image
-                  src={result.primaryLocation.imageUrl}
-                  alt="記憶の風景"
-                  width={800}
-                  height={600}
-                  unoptimized
-                  className="w-full max-w-lg h-48 md:h-64 object-cover rounded-2xl mx-auto shadow-2xl"
-                  onError={(event) => {
-                    const target = event.currentTarget
-                    target.src = ImageService.generatePlaceholder(800, 600, result.primaryLocation.name)
-                  }}
-                />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              {/* Left: Image */}
+              <div>
+                {result.primaryLocation.imageUrl && (
+                  <Image
+                    src={result.primaryLocation.imageUrl}
+                    alt={result.primaryLocation.name}
+                    width={800}
+                    height={600}
+                    unoptimized
+                    className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-2xl"
+                    onError={(event) => {
+                      const target = event.currentTarget
+                      target.src = ImageService.generatePlaceholder(800, 600, result.primaryLocation.name)
+                    }}
+                  />
+                )}
               </div>
-            )}
-            
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6 max-w-2xl mx-auto">
-              {result.primaryLocation.story}
-            </p>
 
-            <div className="mb-6">
-              <MapComponent location={result.primaryLocation} />
+              {/* Right: Story and map */}
+              <div className="flex flex-col">
+                <h4 className="text-xl font-semibold mb-4 text-gray-100">記憶の詳細</h4>
+                
+                <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6 flex-grow">
+                  {result.primaryLocation.story}
+                </p>
+
+                <div>
+                  <MapComponent location={result.primaryLocation} />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -233,7 +241,7 @@ export default function ResultPage() {
                 他に思い出されたかもしれない場所
               </h3>
               
-              <div className={`grid sm:grid-cols-1 md:grid-cols-2 ${result.secondaryLocations.length < 3 ? 'lg:grid-cols-2' : 'lg:grid-cols-3'} gap-4 md:gap-6`}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {result.secondaryLocations.map((item, index) => (
                   <motion.div
                     key={index}

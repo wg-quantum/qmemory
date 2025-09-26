@@ -41,11 +41,15 @@ loadRootEnv()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Disable for better dev performance
   images: {
     remotePatterns: [],
   },
-  webpack: (config) => {
+  // Development optimizations
+  compiler: {
+    removeConsole: false,
+  },
+  webpack: (config, { dev }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, './src'),
@@ -53,7 +57,81 @@ const nextConfig = {
       '@/lib': path.resolve(__dirname, './src/lib'),
       '@/types': path.resolve(__dirname, './src/types'),
     };
+    
+    if (dev) {
+      // Development optimizations
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+          },
+        },
+      };
+    }
+    
     return config;
+  },
+  // PWA and Performance optimizations
+  // experimental: {
+  //   optimizeCss: true,
+  // },
+  // Compression
+  compress: true,
+  // Headers for better caching
+  headers: async () => {
+    return [
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400',
+          },
+        ],
+      },
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+    ]
   },
 }
 

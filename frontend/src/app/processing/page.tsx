@@ -7,6 +7,7 @@ import ParticleBackground from '@/components/ParticleBackground'
 import { GeminiAnalysisResult, QuantumResult, SecondaryLocation } from '@/types/quantum'
 import { geocodeLocation } from '@/lib/geocoding'
 import ImageService from '@/lib/imageService'
+import CoordinateService from '@/lib/coordinateService'
 
 export default function ProcessingPage() {
   const router = useRouter()
@@ -30,30 +31,51 @@ export default function ProcessingPage() {
   }, [])
 
   const handleComplete = async () => {
-    if (!analysisResult) return
+    if (!analysisResult) {
+      setError('解析結果が無いため処理できません')
+      return
+    }
 
     try {
+      console.log('Starting quantum processing...')
       const geminiResult = analysisResult
 
-      // Geocode primary location
-      const primaryGeocode = await geocodeLocation(geminiResult.location)
-      const primaryImage = await ImageService.getLocationImage(geminiResult.location, geminiResult.region)
+      // Safely geocode primary location with fallback
+      let primaryGeocode = null
+      let primaryImage = ''
+      
+      try {
+        primaryGeocode = await geocodeLocation(geminiResult.location)
+      } catch (geocodeError) {
+        console.warn('Primary geocoding failed, using fallback:', geocodeError)
+      }
+      
+      try {
+        primaryImage = await ImageService.getLocationImage(geminiResult.location, geminiResult.region)
+      } catch (imageError) {
+        console.warn('Primary image loading failed:', imageError)
+      }
 
-      // Process secondary locations
-      const secondaryLocationsWithData = await Promise.allSettled(
-        geminiResult.secondaryLocations.map(async (loc: any) => {
-          const geocode = await geocodeLocation(loc.name)
-          const image = await ImageService.getLocationImage(loc.name, loc.region)
+      // Process secondary locations with error handling
+      const secondaryLocationPromises = (geminiResult.secondaryLocations || []).map(async (loc: any) => {
+        try {
+          const geocode = await geocodeLocation(loc.name).catch(() => null)
+          const image = await ImageService.getLocationImage(loc.name, loc.region || '特定地域').catch(() => '')
           
           return {
-            name: loc.name,
-            probability: loc.probability,
-            description: loc.description,
-            coordinates: geocode?.coordinates || null,
-            imageUrl: image ?? null
+            name: loc.name || '未特定の場所',
+            probability: loc.probability || 30,
+            description: loc.description || '量子推定による候補地',
+            coordinates: geocode?.coordinates || CoordinateService.getCoordinatesForLocation(loc.name, loc.region),
+            imageUrl: image || null
           } as SecondaryLocation
-        })
-      )
+        } catch (locError) {
+          console.warn(`Failed to process location ${loc.name}:`, locError)
+          return null
+        }
+      })
+      
+      const secondaryLocationsWithData = await Promise.allSettled(secondaryLocationPromises)
 
       const processedSecondaryLocations = secondaryLocationsWithData
         .filter((result): result is PromiseFulfilledResult<SecondaryLocation> => result.status === 'fulfilled')
@@ -64,7 +86,7 @@ export default function ProcessingPage() {
           name: geminiResult.location,
           story: geminiResult.story,
           probability: 75 + Math.floor(Math.random() * 20), // 75-95%
-          coordinates: primaryGeocode?.coordinates || { lat: 35.6762, lng: 139.6503 },
+          coordinates: primaryGeocode?.coordinates || CoordinateService.getCoordinatesForLocation(geminiResult.location, geminiResult.region),
           imageUrl: primaryImage
         },
         secondaryLocations: processedSecondaryLocations,
@@ -81,7 +103,7 @@ export default function ProcessingPage() {
       router.push('/result')
     } catch (err) {
       console.error('Quantum processing failed:', err)
-      setError('量子処理に失敗しました')
+      setError(err instanceof Error ? err.message : '量子処理中にエラーが発生しました。もう一度お試しください。')
     }
   }
 
