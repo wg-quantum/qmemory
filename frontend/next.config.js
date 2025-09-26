@@ -45,6 +45,16 @@ const nextConfig = {
   images: {
     remotePatterns: [],
   },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, './src'),
+      '@/components': path.resolve(__dirname, './src/components'),
+      '@/lib': path.resolve(__dirname, './src/lib'),
+      '@/types': path.resolve(__dirname, './src/types'),
+    };
+    return config;
+  },
 }
 
 module.exports = nextConfig
