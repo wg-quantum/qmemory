@@ -56,6 +56,10 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400"
+        },
+        {
+          "key": "Content-Type",
+          "value": "image/*"
         }
       ]
     }
@@ -70,10 +74,11 @@
       "destination": "https://qmemory-backend.vercel.app/api/gemini/:path*"
     },
     {
-      "source": "/((?!api|_next|_static|favicon.ico|images).*)",
+      "source": "/((?!api|_next|_static|favicon.ico|images|manifest.json).*)",
       "destination": "/"
     }
   ],
+  "public": true,
   "cleanUrls": true,
   "trailingSlash": false
 }

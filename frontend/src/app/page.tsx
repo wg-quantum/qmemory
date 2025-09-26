@@ -104,10 +104,14 @@ export default function QuantumLocationRecall() {
                     height={512}
                     className="w-auto h-auto max-w-full max-h-96 object-contain"
                     priority
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
+                      console.warn('Logo failed to load, switching to symbol')
                       target.src = '/images/symbol.png' // Fallback to symbol if logo fails
                     }}
+                    onLoad={() => console.log('Logo loaded successfully')}
                   />
                 </div>
                 <p className="text-xl font-light tracking-wide mt-2" style={{ color: '#5ce1e6' }}>
